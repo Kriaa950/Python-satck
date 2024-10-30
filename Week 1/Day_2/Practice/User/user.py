@@ -1,46 +1,31 @@
-class user:
-    def __init__ (self, first_name, last_name, email, age):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.age = age
-        self.is_rewards_member = False
-        self.gold_cards_points = 0 
-# function to display info
-    def display_info(self):
-        print(f"First name: {self.first_name}")
-        print(f"Last name: {self.last_name}")
-        print(f"Email: {self.email}")
-        print(f"Age: {self.age}")
-        print(f"Reward memeber: {self.is_rewards_member}")
-        print(f"Gold card member: {self.gold_cards_points}")
+class BankAccount:
+    def __init__(self, in_rate, balance=0):
+        self.in_rate = in_rate
+        self.balance = balance
 
-    def enroll(self):
-        if self.is_rewards_member:
-            print("User already a member.")
+    def deposit(self, amount):
+        self.balance += amount
+        return self
+
+    def withdraw(self, balance):
+        if self.balance >= balance:
+            self.balance -= balance
         else:
-            self.is_rewards_member = True
-            self.gold_cards_points = 200
-        return False
-    def spend_points(self, amount):
-        if self.gold_cards_points >= amount:
-            self.gold_cards_points -= amount# dedcut points
-        else:
-            print("is not enough point to spend.")
-            return True
-# create user insatance 
-user1 = user("Abdallah", "Kriaa", "abdallahkriaa@gmail.com", 21)
-user1.display_info() # display user info 
+            print("Insufficient funds: Charging a $5 ")
+            self.balance -= 5 
+        return self
+    
+    def display_account_info(self):
+        print(f"Balance: ${self.balance}")
+        return self
 
-user1.enroll()
-user1.spend_points(50)
-user1.display_info()
+    def yield_interest(self):
+        if self.balance > 0:
+            self.balance += self.balance * self.in_rate
+        return self 
 
-user2 = user("Yessine", "Kriaa", "yessinekriaa@gmail.com", 21)
-user3 = user("Ali", "sassi", "Alisassi@gmail.com", 22)
+account1 = BankAccount(0.01, 100)
+account2 = BankAccount(0.02, 200)
 
-user2.enroll()
-user2.spend_points(80)
-user1.display_info()
-user2.display_info()
-user3.display_info()
+account1.deposit(50).deposit(100).deposit(200).withdraw(50).yield_interest().display_account_info()
+account2.deposit(100).deposit(50).withdraw(30).withdraw(30).withdraw(50).withdraw(200).yield_interest().display_account_info()
